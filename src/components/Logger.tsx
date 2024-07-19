@@ -112,10 +112,14 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
 
     if (time <= 30) data.score += 4;
     else if (time <= 45) data.score += 2;
-    else if (time > 60) {
+    else if (time > 60 && time <= 120) {
+      const over = Math.floor((time - 60) / 15);
+      data.score -= over * 1;
+    } else if (time > 120) {
       const over = Math.floor((time - 60) / 15);
       data.score -= over * 2;
     }
+
     if (data.score < 0) data.score = 0;
 
     updateScore(data);
