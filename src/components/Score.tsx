@@ -33,7 +33,12 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
     <>
       <h1>{score}</h1>
       {shareText.length > 0 && (
-        <textarea value={shareText} readOnly ref={inputRef} />
+        <>
+          <textarea value={shareText} readOnly ref={inputRef} />
+          <button onClick={() => navigator.clipboard.writeText(shareText)}>
+            Copy
+          </button>
+        </>
       )}
     </>
   );
