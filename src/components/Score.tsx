@@ -25,6 +25,7 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
   const shareButton = useMemo(() => {
     let text: string;
 
+    //todo: change to if ('share' in navigator)
     // @ts-expect-error typescript thinks navigator.share will always exist, but it doesn't on desktop browsers.
     if (navigator.share) {
       if (shared) text = 'Shared';
@@ -50,7 +51,7 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
       .reduce((acc: string, game: GameData) => {
         return `${acc}${game.text}\nScore: ${game.score}\n-------------\n`;
       }, '')
-      .trim()}\n\nTotal: ${score}`;
+      .trim()}\n\n${score}`;
   }, [scoreData, score]);
 
   const empty = useMemo(() => {
