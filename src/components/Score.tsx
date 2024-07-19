@@ -27,7 +27,7 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
   const shareText = useMemo(() => {
     return `${Object.values(scoreData.scores)
       .reduce((acc: string, game: GameData) => {
-        return `${acc}${game.text}\nScore: ${game.score}\n\n`;
+        return `${acc}${game.text}\nScore: ${game.score}\n-------------\n`;
       }, '')
       .trim()}\n\nTotal: ${score}`;
   }, [scoreData, score]);
