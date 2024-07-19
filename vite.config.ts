@@ -14,8 +14,10 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: [
-          'favicons/favicon.ico',
-          'favicons/apple-touch-icon.png',
+          'favicon.ico',
+          'robots.txt',
+          'favicon.svg',
+          'apple-touch-icon.png',
         ],
         manifest: {
           name: "Chad and Todd's Game Scorer",
@@ -25,14 +27,26 @@ export default defineConfig(({ mode }) => {
           background_color: '#242424',
           icons: [
             {
-              src: 'favicons/pwa-192x192.png',
+              src: 'pwa-192x192.png',
               sizes: '192x192',
               type: 'image/png',
             },
             {
-              src: 'favicons/pwa-512x512.png',
+              src: 'pwa-512x512.png',
               sizes: '512x512',
               type: 'image/png',
+            },
+            {
+              src: 'pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any',
+            },
+            {
+              src: 'safari-pinned-tab.svg',
+              sizes: '512x512',
+              type: 'image/svg',
+              purpose: 'maskable',
             },
           ],
           screenshots: [
