@@ -35,6 +35,21 @@ export default defineConfig(({ mode }) => {
               type: 'image/png',
             },
           ],
+          screenshots: [
+            {
+              src: 'screenshot_desktop.webp',
+              sizes: '1280x720',
+              type: 'image/webp',
+              form_factor: 'wide',
+              label: 'Desktop view of the app',
+            },
+            {
+              src: 'screenshot_mobile.webp',
+              sizes: '450x720',
+              type: 'image/webp',
+              label: 'Mobile view of the app',
+            },
+          ],
         },
         workbox: {
           runtimeCaching: [
