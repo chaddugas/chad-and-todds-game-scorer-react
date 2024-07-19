@@ -2,10 +2,19 @@ import './Score.scss';
 
 import { ScoreData, GameData } from '../shared/interfaces.ts';
 
-import { useMemo, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect, useState } from 'react';
 
 function Score({ scoreData }: { scoreData: ScoreData }) {
+  const [copied, setCopied] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const doCopy = () => {
+    navigator.clipboard.writeText(shareText);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
+  };
 
   const score = useMemo((): string => {
     return `Total: ${String(
@@ -38,10 +47,10 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
       <h1>{score}</h1>
       {!empty && (
         <div className="share">
-          <textarea value={shareText} readOnly ref={inputRef} />
-          <button onClick={() => navigator.clipboard.writeText(shareText)}>
-            Copy
+          <button className={copied ? 'copied' : ''} onClick={doCopy}>
+            {copied ? 'Copied' : 'Copy'}
           </button>
+          <textarea value={shareText} readOnly ref={inputRef} />
         </div>
       )}
     </>
