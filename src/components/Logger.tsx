@@ -12,7 +12,7 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     const data = {
       game: 'strands',
       score: 10,
-      text,
+      text: '',
     };
     const emoji = text.match(emojiRegex);
 
@@ -24,6 +24,13 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     if (bonus) data.score += 2;
     if (hints) data.score -= hints * 1.5;
 
+    const midPoint = Math.ceil(emoji.length / 2);
+    const groupedEmoji = [emoji.slice(0, midPoint), emoji.slice(midPoint)];
+
+    data.text = `Strands\n${groupedEmoji
+      .map((group: string[]) => group.join(''))
+      .join('\n')}`;
+
     updateScore(data);
   };
 
@@ -31,7 +38,7 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     const data = {
       game: 'hang5',
       score: 10,
-      text,
+      text: '',
     };
     const emoji = text.match(emojiRegex);
 
@@ -45,6 +52,8 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
       data.score -= i * 1;
     }
 
+    data.text = `Hang Five\n${emoji.join('').replace(/\u2764/g, '❤️')}`;
+
     updateScore(data);
   };
 
@@ -52,7 +61,7 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     const data = {
       game: 'connections',
       score: 10,
-      text,
+      text: '',
     };
     let emoji: string[] | Array<string[]> = [...(text.match(emojiRegex) || [])];
 
@@ -80,23 +89,27 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
       }
     }
 
+    data.text = `Connections\n${emoji
+      .map((group: string[]) => group.join(''))
+      .join('\n')}`;
+
     updateScore(data);
   };
 
   const scoreClipboard = async (): Promise<void> => {
     const text = await navigator.clipboard.readText();
 
+    const isAlreadyProcessed = /-------------/i.test(text);
+
+    if (isAlreadyProcessed) return;
+
     const isStrands = /strands/i.test(text);
     const isHang5 = /hang five/i.test(text);
     const isConnections = /connections/i.test(text);
-    const isCrosswordMini = /crossword/i.test(text);
 
-    if (isStrands && !isHang5 && !isConnections && !isCrosswordMini)
-      scoreStrands(text);
-    if (isHang5 && !isStrands && !isConnections && !isCrosswordMini)
-      scoreHang5(text);
-    if (isConnections && !isHang5 && !isStrands && !isCrosswordMini)
-      scoreConnections(text);
+    if (isStrands) scoreStrands(text);
+    if (isHang5) scoreHang5(text);
+    if (isConnections) scoreConnections(text);
   };
 
   const minutesInput = useRef<HTMLInputElement>(null);
