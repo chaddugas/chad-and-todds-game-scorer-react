@@ -14,10 +14,12 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: [
-          'favicon.ico',
-          'robots.txt',
           'favicon.svg',
+          'favicon.ico',
           'apple-touch-icon.png',
+          'maskable-icon.png',
+          'safari-pinned-tab.svg',
+          'robots.txt',
         ],
         manifest: {
           name: "Chad and Todd's Game Scorer",
