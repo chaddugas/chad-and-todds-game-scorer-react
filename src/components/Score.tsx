@@ -12,7 +12,7 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
       Object.values(scoreData.scores).reduce((acc: number, game: GameData) => {
         return acc + game.score;
       }, 0),
-    ).padStart(2, '0')}`;
+    )}`;
   }, [scoreData]);
 
   const shareText = useMemo(() => {

@@ -107,17 +107,18 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     const data = {
       game: 'crosswordMini',
       score: 10,
-      text: `Crossword Mini\nTime: ${minutes}m ${seconds}s`,
+      text: `Crossword Mini\nTime: ${Math.floor(time / 60)}m ${time % 60}s`,
     };
 
     if (time <= 30) data.score += 4;
     else if (time <= 45) data.score += 2;
-    else if (time > 60 && time <= 120) {
-      const over = Math.floor((time - 60) / 15);
-      data.score -= over * 1;
-    } else if (time > 120) {
-      const over = Math.floor((time - 60) / 15);
-      data.score -= over * 2;
+    else if (time > 60) {
+      const over = time - 60;
+      const firstOver = Math.min(over, 60);
+      const secondOver = over > 60 ? over - 60 : 0;
+
+      data.score -= Math.ceil(firstOver / 15) * 1;
+      data.score -= Math.ceil(secondOver / 15) * 2;
     }
 
     if (data.score < 0) data.score = 0;
