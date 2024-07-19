@@ -25,6 +25,7 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
   const shareButton = useMemo(() => {
     let text: string;
 
+    // @ts-expect-error typescript thinks navigator.share will always exist, but it doesn't on desktop browsers.
     if (navigator.share) {
       if (shared) text = 'Shared';
       else text = 'Share';
