@@ -21,7 +21,8 @@ export default defineConfig(({ mode }) => {
           name: "Chad and Todd's Game Scorer",
           short_name: 'Game Scorer',
           description: 'An app to score our daily word games.',
-          theme_color: '#f0f0f0',
+          theme_color: '#242424',
+          background_color: '#242424',
           icons: [
             {
               src: 'favicons/pwa-192x192.png',
