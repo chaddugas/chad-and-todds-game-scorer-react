@@ -89,10 +89,14 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     const isStrands = /strands/i.test(text);
     const isHang5 = /hang five/i.test(text);
     const isConnections = /connections/i.test(text);
+    const isCrosswordMini = /crossword/i.test(text);
 
-    if (isStrands) scoreStrands(text);
-    if (isHang5) scoreHang5(text);
-    if (isConnections) scoreConnections(text);
+    if (isStrands && !isHang5 && !isConnections && !isCrosswordMini)
+      scoreStrands(text);
+    if (isHang5 && !isStrands && !isConnections && !isCrosswordMini)
+      scoreHang5(text);
+    if (isConnections && !isHang5 && !isStrands && !isCrosswordMini)
+      scoreConnections(text);
   };
 
   const minutesInput = useRef<HTMLInputElement>(null);
