@@ -1,10 +1,10 @@
-import './Logger.scss';
+import styles from './Input.module.scss';
 
 import { GameData } from '../shared/interfaces.ts';
 
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 
-function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
+function Input({ updateScore }: { updateScore: (score: GameData) => void }) {
   const emojiRegex =
     /(\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|\u2764)/gim;
 
@@ -22,7 +22,7 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     const hints = emoji.filter(e => e === '💡').length;
 
     if (bonus) data.score += 2;
-    if (hints) data.score -= hints * 1.5;
+    if (hints) data.score -= hints * 2;
 
     const midPoint = Math.ceil(emoji.length / 2);
     const groupedEmoji = [emoji.slice(0, midPoint), emoji.slice(midPoint)];
@@ -115,16 +115,25 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
   const minutesInput = useRef<HTMLInputElement>(null);
   const secondsInput = useRef<HTMLInputElement>(null);
 
-  const scoreInput = () => {
-    if (!minutesInput.current || !secondsInput.current) return;
+  const [minutes, setMinutes] = useState<null | number>(null);
+  const [seconds, setSeconds] = useState<null | number>(null);
 
-    const minutes = parseInt(minutesInput.current.value) || 0;
-    const seconds = parseInt(secondsInput.current.value) || 0;
-    const time = minutes * 60 + seconds;
+  const handleMinutesChange = () => {
+    if (!minutesInput.current) return;
+    setMinutes(parseInt(minutesInput.current.value || '0', 10));
+  };
+
+  const handleSecondsChange = () => {
+    if (!secondsInput.current) return;
+    setSeconds(parseInt(secondsInput.current.value || '0', 10));
+  };
+
+  const scoreCrosswordMini = () => {
+    const time = (minutes || 0) * 60 + (seconds || 0);
     const data = {
       game: 'crosswordMini',
       score: 10,
-      text: `Crossword Mini\nTime: ${Math.floor(time / 60)}m ${time % 60}s`,
+      text: `Crossword Mini\n⏱️ ${Math.floor(time / 60)}m ${time % 60}s`,
     };
 
     if (time <= 30) data.score += 4;
@@ -141,30 +150,35 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     if (data.score < 0) data.score = 0;
 
     updateScore(data);
+    setMinutes(null);
+    setSeconds(null);
   };
 
   return (
     <>
       <button onClick={scoreClipboard}>Log Score from Clipboard</button>
-      <div className="numberInput">
+      <div className={styles.number__input}>
         <label>Crossword Mini Time:</label>
         <input
-          onInput={scoreInput}
           ref={minutesInput}
+          value={minutes || ''}
+          onInput={handleMinutesChange}
           type="number"
           pattern="[0-9]*"
           placeholder="minutes"
         />
         <input
-          onInput={scoreInput}
           ref={secondsInput}
+          value={seconds || ''}
           type="number"
+          onInput={handleSecondsChange}
           pattern="[0-9]*"
           placeholder="seconds"
         />
+        <button onClick={scoreCrosswordMini}>✔</button>
       </div>
     </>
   );
 }
 
-export default Logger;
+export default Input;

@@ -1,12 +1,9 @@
-import './App.scss';
-
 import { GameData, ScoreData } from './shared/interfaces.ts';
 
-import { useMemo } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 
-import Score from './components/Score.tsx';
-import Logger from './components/Logger.tsx';
+import Output from './components/Output.tsx';
+import Input from './components/Input.tsx';
 
 function App() {
   const [scoreData, setScoreData] = useLocalStorageState<ScoreData>('score', {
@@ -16,9 +13,19 @@ function App() {
     },
   });
 
-  const empty = useMemo(() => {
-    return Object.keys(scoreData.scores).length === 0;
-  }, [scoreData]);
+  const updateScore = (score: GameData) => {
+    setScoreData((prev: ScoreData) => {
+      const scores = { ...prev.scores };
+
+      scores[score.game] = {
+        game: score.game,
+        text: score.text,
+        score: score.score,
+      };
+
+      return { date: prev.date, scores };
+    });
+  };
 
   const resetScoreData = (force = false) => {
     const today = new Date().toDateString();
@@ -30,29 +37,10 @@ function App() {
 
   resetScoreData();
 
-  const updateScore = (score: GameData) => {
-    setScoreData((prev: ScoreData) => {
-      const scores = { ...prev.scores };
-
-      scores[score.game] = {
-        game: score.game,
-        text: score.text.replace(/\t/g, '').replace(/ {2,}/g, '').trim(),
-        score: score.score,
-      };
-
-      return { date: prev.date, scores };
-    });
-  };
-
   return (
     <>
-      {!empty && (
-        <button className="reset" onClick={() => resetScoreData(true)}>
-          Reset
-        </button>
-      )}
-      <Score scoreData={scoreData} />
-      <Logger updateScore={updateScore} />
+      <Output scoreData={scoreData} resetScoreData={resetScoreData} />
+      <Input updateScore={updateScore} />
     </>
   );
 }

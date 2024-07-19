@@ -1,0 +1,22 @@
+.number__input {
+  display: grid;
+  grid-template-columns: 1fr 1fr max-content;
+  grid-template-rows: auto auto;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  label {
+    grid-area: 1 / 1 / 2 / 4;
+  }
+
+  input {
+    width: auto;
+    min-width: 0;
+    grid-area: span 1 / span 1;
+  }
+
+  button {
+    grid-area: span 1 / span 1;
+    padding: 0.75rem;
+  }
+}

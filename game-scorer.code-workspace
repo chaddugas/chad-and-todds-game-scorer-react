@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "public",
+      "name": "PUBLIC"
+    },
+    {
+      "path": "src",
+      "name": "SRC"
+    },
+    {
+      "path": ".",
+      "name": "ROOT"
+    }
+  ],
+  "settings": {
+    "workbench.editor.labelFormat": "short"
+  }
+}
