@@ -5,16 +5,36 @@ import { ScoreData, GameData } from '../shared/interfaces.ts';
 import { useMemo, useRef, useEffect, useState } from 'react';
 
 function Score({ scoreData }: { scoreData: ScoreData }) {
-  const [copied, setCopied] = useState(false);
+  const [shared, setShared] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const doCopy = () => {
-    navigator.clipboard.writeText(shareText);
-    setCopied(true);
+  const doShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        text: shareText,
+      });
+    } else {
+      navigator.clipboard.writeText(shareText);
+    }
+    setShared(true);
     setTimeout(() => {
-      setCopied(false);
+      setShared(false);
     }, 1000);
   };
+
+  const shareButton = useMemo(() => {
+    let text: string;
+
+    if (navigator.share) {
+      if (shared) text = 'Shared';
+      else text = 'Share';
+    } else {
+      if (shared) text = 'Copied';
+      else text = 'Copy';
+    }
+
+    return text;
+  }, [shared]);
 
   const score = useMemo((): string => {
     return `Total: ${String(
@@ -47,8 +67,8 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
       <h1>{score}</h1>
       {!empty && (
         <div className="share">
-          <button className={copied ? 'copied' : ''} onClick={doCopy}>
-            {copied ? 'Copied' : 'Copy'}
+          <button className={shared ? 'shared' : ''} onClick={doShare}>
+            {shareButton}
           </button>
           <textarea value={shareText} readOnly ref={inputRef} />
         </div>
