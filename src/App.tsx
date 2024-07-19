@@ -31,9 +31,10 @@ function App() {
   const updateScore = (score: GameData) => {
     setScoreData((prev: ScoreData) => {
       const scores = { ...prev.scores };
+
       scores[score.game] = {
         game: score.game,
-        text: score.text,
+        text: score.text.replace(/\t/g, '').replace(/ {2,}/g, '').trim(),
         score: score.score,
       };
 

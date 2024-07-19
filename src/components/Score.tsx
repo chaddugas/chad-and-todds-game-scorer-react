@@ -16,12 +16,12 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
   }, [scoreData]);
 
   const shareText = useMemo(() => {
-    return Object.values(scoreData.scores)
+    return `${Object.values(scoreData.scores)
       .reduce((acc: string, game: GameData) => {
         return `${acc}${game.text}\nScore: ${game.score}\n\n`;
       }, '')
-      .trim();
-  }, [scoreData]);
+      .trim()}\n\nTotal: ${score}`;
+  }, [scoreData, score]);
 
   useEffect(() => {
     if (!inputRef.current) return;
@@ -33,12 +33,12 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
     <>
       <h1>{score}</h1>
       {shareText.length > 0 && (
-        <>
+        <div className="share">
           <textarea value={shareText} readOnly ref={inputRef} />
           <button onClick={() => navigator.clipboard.writeText(shareText)}>
             Copy
           </button>
-        </>
+        </div>
       )}
     </>
   );

@@ -10,7 +10,7 @@ input {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-  color: #fff;
+  color: inherit;
   text-align: center;
   &:hover {
     border-color: #646cff;
