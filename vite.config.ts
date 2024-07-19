@@ -20,8 +20,8 @@ export default defineConfig(({ mode }) => {
         manifest: {
           name: "Chad and Todd's Game Scorer",
           short_name: 'Game Scorer',
-          description: 'An app to score games offline',
-          theme_color: 'auto',
+          description: 'An app to score our daily word games.',
+          theme_color: '#f0f0f0',
           icons: [
             {
               src: 'favicons/pwa-192x192.png',
