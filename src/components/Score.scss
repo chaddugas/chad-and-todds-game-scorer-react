@@ -2,7 +2,7 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
   text-align: center;
-  color: inherit;
+  color: rgba(var(--color), 0.87);
 }
 
 .share {
@@ -10,7 +10,6 @@ h1 {
   flex-direction: column;
   margin-bottom: 2rem;
   border-radius: 8px;
-  background-color: #1a1a1a;
   border-radius: 8px;
   overflow: hidden;
 
@@ -24,7 +23,7 @@ h1 {
     font-family: inherit;
     cursor: pointer;
     transition: border-color 0.25s;
-    color: inherit;
+    color: rgba(var(--color), 1);
   }
 
   button {

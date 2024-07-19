@@ -1,10 +1,14 @@
 :root {
+  --color: 255, 255, 255;
+  --highlight: 100, 108, 255;
+  --background: 36, 36, 36;
+  --background-highlight: 48, 48, 48;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: rgba(var(--color), 0.87);
+  background-color: rgba(var(--background), 1);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   box-sizing: border-box;
@@ -20,8 +24,10 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    background-color: #fafafa;
-    color: rgba(0, 0, 0, 0.87);
+    --color: 0, 0, 0;
+    --highlight: 66, 13, 171;
+    --background: 240, 240, 240;
+    --background-highlight: 228, 228, 228;
   }
 }
 

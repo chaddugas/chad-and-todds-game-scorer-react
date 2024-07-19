@@ -7,12 +7,12 @@ import { useMemo, useRef, useEffect } from 'react';
 function Score({ scoreData }: { scoreData: ScoreData }) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const score = useMemo(() => {
-    return String(
+  const score = useMemo((): string => {
+    return `Total: ${String(
       Object.values(scoreData.scores).reduce((acc: number, game: GameData) => {
         return acc + game.score;
       }, 0),
-    ).padStart(2, '0');
+    ).padStart(2, '0')}`;
   }, [scoreData]);
 
   const shareText = useMemo(() => {
@@ -23,6 +23,10 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
       .trim()}\n\nTotal: ${score}`;
   }, [scoreData, score]);
 
+  const empty = useMemo(() => {
+    return Object.keys(scoreData.scores).length === 0;
+  }, [scoreData]);
+
   useEffect(() => {
     if (!inputRef.current) return;
     inputRef.current.style.height = '5px';
@@ -32,7 +36,7 @@ function Score({ scoreData }: { scoreData: ScoreData }) {
   return (
     <>
       <h1>{score}</h1>
-      {shareText.length > 0 && (
+      {!empty && (
         <div className="share">
           <textarea value={shareText} readOnly ref={inputRef} />
           <button onClick={() => navigator.clipboard.writeText(shareText)}>

@@ -125,6 +125,7 @@ function Logger({ updateScore }: { updateScore: (score: GameData) => void }) {
     <>
       <button onClick={scoreClipboard}>Log Score from Clipboard</button>
       <div className="numberInput">
+        <label>Crossword Mini Time:</label>
         <input
           onInput={scoreInput}
           ref={minutesInput}
