@@ -21,8 +21,10 @@ function Input({ updateScore }: { updateScore: (score: GameData) => void }) {
     const bonus = emoji[0] === '🟡';
     const hints = emoji.filter(e => e === '💡').length;
 
-    if (bonus) data.score += 2;
     if (hints) data.score -= hints * 2;
+    if (data.score < 0) data.score = 0;
+
+    if (bonus) data.score += 2;
 
     const midPoint = Math.ceil(emoji.length / 2);
     const groupedEmoji = [emoji.slice(0, midPoint), emoji.slice(midPoint)];
@@ -96,22 +98,6 @@ function Input({ updateScore }: { updateScore: (score: GameData) => void }) {
     updateScore(data);
   };
 
-  const scoreClipboard = async (): Promise<void> => {
-    const text = await navigator.clipboard.readText();
-
-    const isAlreadyProcessed = /-------------/i.test(text);
-
-    if (isAlreadyProcessed) return;
-
-    const isStrands = /strands/i.test(text);
-    const isHang5 = /hang five/i.test(text);
-    const isConnections = /connections/i.test(text);
-
-    if (isStrands) scoreStrands(text);
-    if (isHang5) scoreHang5(text);
-    if (isConnections) scoreConnections(text);
-  };
-
   const minutesInput = useRef<HTMLInputElement>(null);
   const secondsInput = useRef<HTMLInputElement>(null);
 
@@ -129,6 +115,7 @@ function Input({ updateScore }: { updateScore: (score: GameData) => void }) {
   };
 
   const scoreCrosswordMini = () => {
+    if (!minutes && !seconds) return;
     const time = (minutes || 0) * 60 + (seconds || 0);
     const data = {
       game: 'crosswordMini',
@@ -152,6 +139,22 @@ function Input({ updateScore }: { updateScore: (score: GameData) => void }) {
     updateScore(data);
     setMinutes(null);
     setSeconds(null);
+  };
+
+  const scoreClipboard = async (): Promise<void> => {
+    const text = await navigator.clipboard.readText();
+
+    const isAlreadyProcessed = /-------------/i.test(text);
+
+    if (isAlreadyProcessed) return;
+
+    const isStrands = /strands/i.test(text);
+    const isHang5 = /hang five/i.test(text);
+    const isConnections = /connections/i.test(text);
+
+    if (isStrands) scoreStrands(text);
+    if (isHang5) scoreHang5(text);
+    if (isConnections) scoreConnections(text);
   };
 
   return (
