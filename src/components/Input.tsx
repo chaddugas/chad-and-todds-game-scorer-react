@@ -84,12 +84,13 @@ function Input({ updateScore }: { updateScore: (score: GameData) => void }) {
       return acc + mistake;
     }, 0);
 
-    if (bonus) data.score += 2;
     if (errors) {
       for (let i = 0; i < errors; i++) {
         data.score -= (i + 1) * 1;
       }
     }
+    if (data.score < 0) data.score = 0;
+    if (bonus) data.score += 2;
 
     data.text = `Connections\n${emoji
       .map((group: string[]) => group.join(''))
